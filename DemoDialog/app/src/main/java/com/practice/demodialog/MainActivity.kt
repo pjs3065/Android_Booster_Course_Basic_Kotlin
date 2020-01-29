@@ -8,27 +8,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        button1.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-//        showAlertDialogBasic()
-//        showAlertDialogSameBasic()
-//        showAlertDialogList()
-//        showAlertDialogSingleChoice()
-        showAlertDialogMultiChoice()
     }
 
     /**
      * 기본 다이얼로그 띄우기
      */
-    private fun showAlertDialogBasic() {
+    fun showAlertDialogBasic(v:View?) {
         AlertDialog.Builder(this)
             .setIcon(R.drawable.ic_launcher_foreground)
             .setTitle(getString(R.string.title))
@@ -40,7 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * 빌더패턴 안쓰고 기본 다이얼로그 띄우기
      */
-    private fun showAlertDialogSameBasic() {
+    fun showAlertDialogSameBasic(v:View?) {
         val dialog = AlertDialog.Builder(this)
         dialog.setIcon(R.drawable.ic_launcher_foreground)
         dialog.setTitle(getString(R.string.title))
@@ -52,7 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * 리스트 형식의 다이얼로그 띄우기
      */
-    private fun showAlertDialogList() {
+    fun showAlertDialogList(v:View?) {
         val cars = arrayOf("SM3", "SM5", "SM7", "SONATA", "AVANTE")
 
         AlertDialog.Builder(this)
@@ -67,7 +57,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * 라디오 버튼 형식의 다이얼로그 띄우기
      */
-    private fun showAlertDialogSingleChoice() {
+    fun showAlertDialogSingleChoice(v:View?) {
         val cars = arrayOf("SM3", "SM5", "SM7", "SONATA", "AVANTE")
 
         AlertDialog.Builder(this)
@@ -82,7 +72,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * 체크박스 형식의 다이얼로그 띄우기
      */
-    private fun showAlertDialogMultiChoice() {
+    fun showAlertDialogMultiChoice(v:View?) {
         val cars = arrayOf("SM3", "SM5", "SM7", "SONATA", "AVANTE")
 
         AlertDialog.Builder(this)
