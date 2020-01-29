@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        showAlertDialogBasic()
 //        showAlertDialogSameBasic()
 //        showAlertDialogList()
-
+//        showAlertDialogSingleChoice()
+        showAlertDialogMultiChoice()
     }
 
     /**
@@ -57,6 +58,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         AlertDialog.Builder(this)
             .setItems(cars, object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Toast.makeText(this@MainActivity, "cars: ${cars[which]}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }).setNeutralButton(getString(R.string.exit), null).show()
+    }
+
+    /**
+     * 라디오 버튼 형식의 다이얼로그 띄우기
+     */
+    private fun showAlertDialogSingleChoice() {
+        val cars = arrayOf("SM3", "SM5", "SM7", "SONATA", "AVANTE")
+
+        AlertDialog.Builder(this)
+            .setSingleChoiceItems(cars, -1, object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Toast.makeText(this@MainActivity, "cars: ${cars[which]}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }).setNeutralButton(getString(R.string.exit), null).show()
+    }
+
+    /**
+     * 체크박스 형식의 다이얼로그 띄우기
+     */
+    private fun showAlertDialogMultiChoice() {
+        val cars = arrayOf("SM3", "SM5", "SM7", "SONATA", "AVANTE")
+
+        AlertDialog.Builder(this)
+            .setMultiChoiceItems(cars, null, object : DialogInterface.OnMultiChoiceClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int, isChecked: Boolean) {
                     Toast.makeText(this@MainActivity, "cars: ${cars[which]}", Toast.LENGTH_SHORT)
                         .show()
                 }
