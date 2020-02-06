@@ -9,6 +9,7 @@ class CustomView(context: Context): View(context) {
 
     private val tagName = MainActivity::class.java.simpleName
 
+    //커스텀뷰 터치이벤트
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if(event!!.action == MotionEvent.ACTION_DOWN){
             Log.d(tagName, "onTouchEvent : CustomView 구현")
