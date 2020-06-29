@@ -1,0 +1,7 @@
+#Thu Feb 06 10:32:31 KST 2020
+base.0=/Users/parkjs/AndroidStudioProjects/Android_Booster_Course_Basic_Kotlin/DemoTouchEvent1/app/build/intermediates/dex/debug/mergeExtDexDebug/out/classes.dex
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=/Users/parkjs/AndroidStudioProjects/Android_Booster_Course_Basic_Kotlin/DemoTouchEvent1/app/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex
