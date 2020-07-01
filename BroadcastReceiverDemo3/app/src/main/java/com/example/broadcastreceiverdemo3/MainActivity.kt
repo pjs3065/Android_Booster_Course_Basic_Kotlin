@@ -1,65 +1,63 @@
 package com.example.broadcastreceiverdemo3
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.broadcastreceiverdemo3.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient
-import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.gms.common.api.Status
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
     private lateinit var client: SmsRetrieverClient
-    private var smsRetrieverReceiver: BroadcastReceiver? = null
+    private var permissionCode = 200
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        checkSelfPermission()
+    }
 
-        registerSmsRetrieverReceiver()
-
-        // 준비가 되면 SMS Retriever를 시작시켜준다. 인증코드 재전송시에 재호출해주어야 한다.
-        client = SmsRetriever.getClient(this).also {
-            it.startSmsRetriever()
+    private fun checkSelfPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_SMS
+            ) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.RECEIVE_SMS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@MainActivity,
+                arrayOf(
+                    android.Manifest.permission.READ_SMS,
+                    android.Manifest.permission.RECEIVE_SMS
+                ),
+                permissionCode
+            )
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterSmsRetrieverReceiver()
-    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            permissionCode -> {
+                if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 권한 허용했을 경우 처리
 
-    private fun registerSmsRetrieverReceiver() {
-        smsRetrieverReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {
-                    val extras = intent.extras ?: return
-                    val status = extras.get(SmsRetriever.EXTRA_STATUS) as? Status ?: return
-
-                    if (status.statusCode != CommonStatusCodes.SUCCESS) {
-                        return
-                    }
-                    val message = extras.get(SmsRetriever.EXTRA_SMS_MESSAGE)
+                } else {
+                    // 권한 거부했을 경우 처리
+                    checkSelfPermission()
                 }
-                registerReceiver(
-                    smsRetrieverReceiver,
-                    IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
-                )
             }
-        }
-    }
-
-    private fun unregisterSmsRetrieverReceiver() {
-        if (smsRetrieverReceiver != null) {
-            unregisterReceiver(smsRetrieverReceiver)
-            smsRetrieverReceiver = null
         }
     }
 }
